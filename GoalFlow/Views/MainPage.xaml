@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GoalFlow.ViewModels"
+             x:Class="GoalFlow.Views.MainPage"
+             BackgroundColor="#121212"
+             Title="{Binding Title}">
+    
+    <ContentPage.BindingContext>
+        <vm:MainViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto, Auto, *, Auto" Padding="20">
+        
+        <!-- Header / Logo Area -->
+        <VerticalStackLayout Grid.Row="0" Spacing="10" HorizontalOptions="Center" Margin="0,40,0,20">
+            <!-- 
+                 Increased HeightRequest to 180 for a bigger logo 
+            -->
+            <Image Source="goalflow.png" 
+                   HeightRequest="180" 
+                   HorizontalOptions="Center" 
+                   Aspect="AspectFit"/>
+        </VerticalStackLayout>
+
+        <!-- Stats Section (Points & Goals Completed) -->
+        <Grid Grid.Row="1" ColumnDefinitions="*, *" Margin="0,20" ColumnSpacing="15">
+            <Frame BackgroundColor="#1E1E1E" CornerRadius="10" BorderColor="#333" Padding="15">
+                <VerticalStackLayout>
+                    <Label Text="Points" TextColor="#AAAAAA" FontSize="12" HorizontalOptions="Center"/>
+                    <Label Text="{Binding TotalPoints}" TextColor="#FFD700" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <Frame Grid.Column="1" BackgroundColor="#1E1E1E" CornerRadius="10" BorderColor="#333" Padding="15">
+                <VerticalStackLayout>
+                    <Label Text="Goals Completed" TextColor="#AAAAAA" FontSize="12" HorizontalOptions="Center"/>
+                    <Label Text="{Binding GoalsCompleted}" TextColor="#4FC3F7" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+
+        <!-- Main Action Buttons -->
+        <VerticalStackLayout Grid.Row="2" Spacing="20" VerticalOptions="Center">
+            
+            <!-- Green Button -->
+            <Button Text="What I achieved..." 
+                    Command="{Binding NavigateToAchievementsCommand}"
+                    BackgroundColor="#4CAF50"
+                    TextColor="White"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    CornerRadius="25"
+                    HeightRequest="60"
+                    Shadow="{Shadow Brush=Green, Radius=5, Offset='2,2'}"/>
+
+            <!-- Orange Button (Renamed) -->
+            <Button Text="Today is a good day for..." 
+                    Command="{Binding NavigateToShopCommand}"
+                    BackgroundColor="#FF9800"
+                    TextColor="White"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    CornerRadius="25"
+                    HeightRequest="60"
+                    Shadow="{Shadow Brush=Orange, Radius=5, Offset='2,2'}"/>
+
+            <!-- Blue Button -->
+            <Button Text="My Goals" 
+                    Command="{Binding NavigateToGoalsCommand}"
+                    BackgroundColor="#2196F3"
+                    TextColor="White"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    CornerRadius="25"
+                    HeightRequest="60"
+                    Shadow="{Shadow Brush=Blue, Radius=5, Offset='2,2'}"/>
+        </VerticalStackLayout>
+        
+        <Label Grid.Row="3" 
+               Text="Build v1.0" 
+               TextColor="#333" 
+               HorizontalOptions="Center" 
+               Margin="0,20,0,0"/>
+
+    </Grid>
+</ContentPage>

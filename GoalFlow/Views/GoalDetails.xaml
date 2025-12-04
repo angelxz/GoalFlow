@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GoalFlow.ViewModels"
+             xmlns:converters="clr-namespace:GoalFlow.Converters"
+             x:Class="GoalFlow.Views.GoalDetailsPage"
+             BackgroundColor="#121212"
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <converters:BoolToSpanConverter x:Key="BoolToSpanConverter" />
+        <x:String x:Key="True">True</x:String>
+        <x:String x:Key="False">False</x:String>
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <vm:GoalDetailsViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="20">
+
+            <!-- 1. Top Section: Category & Checkmark -->
+            <Grid ColumnDefinitions="*, Auto">
+                
+                <!-- CONTAINER FOR CATEGORY SELECTION -->
+                <Grid Grid.Column="0">
+                    
+                    <!-- A: ADD MODE (Show List) -->
+                    <CollectionView ItemsSource="{Binding CategoryOptions}" 
+                                    HeightRequest="60"
+                                    IsVisible="{Binding IsAddMode}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame BackgroundColor="#1E1E1E" 
+                                       BorderColor="{Binding Color}"
+                                       CornerRadius="10"
+                                       WidthRequest="60"
+                                       HeightRequest="50"
+                                       Padding="0"
+                                       HasShadow="False">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:GoalDetailsViewModel}}, Path=SelectCategoryCommand}"
+                                                              CommandParameter="{Binding .}"/>
+                                    </Frame.GestureRecognizers>
+                                    
+                                    <!-- SELECTION VISUALS -->
+                                    <Frame.Triggers>
+                                        <DataTrigger TargetType="Frame" Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="BorderColor" Value="White" />
+                                            <Setter Property="BackgroundColor" Value="#333" />
+                                        </DataTrigger>
+                                    </Frame.Triggers>
+
+                                    <Label Text="{Binding Icon}" 
+                                           FontSize="24" 
+                                           HorizontalOptions="Center" 
+                                           VerticalOptions="Center"/>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!-- B: EDIT MODE (Show Single Item, Locked) -->
+                    <Frame IsVisible="{Binding IsEditMode}"
+                           BackgroundColor="#1E1E1E"
+                           BorderColor="{Binding SelectedCategoryColor}"
+                           CornerRadius="10"
+                           WidthRequest="60"
+                           HeightRequest="50"
+                           HorizontalOptions="Start"
+                           Padding="0"
+                           HasShadow="False">
+                        <Label Text="{Binding SelectedCategoryIcon}" 
+                               FontSize="24" 
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center"/>
+                    </Frame>
+                    
+                </Grid>
+
+                <!-- Complete Button (Checkmark) -->
+                <ImageButton Grid.Column="1"
+                             Source="check_circle.png" 
+                             IsVisible="{Binding IsEditMode}"
+                             Command="{Binding CompleteGoalCommand}"
+                             HeightRequest="40"
+                             WidthRequest="40"
+                             CornerRadius="20"
+                             BackgroundColor="Transparent"
+                             VerticalOptions="Center">
+                </ImageButton>
+            </Grid>
+            
+            <!-- Updated Label -->
+            <Label Text="{Binding SelectedCategoryName, StringFormat='Selected category: {0}'}" 
+                   TextColor="#999" FontSize="14" FontAttributes="Italic" Margin="5,-10,0,0"/>
+
+            <!-- 2. API Data Visualization Placeholder -->
+            <Frame BackgroundColor="#1E1E1E" 
+                   BorderColor="#333" 
+                   CornerRadius="10" 
+                   HeightRequest="120"
+                   HasShadow="False">
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="5">
+                    <Label Text="📊" FontSize="30" HorizontalOptions="Center"/>
+                    <Label Text="API Data Visualization" TextColor="#777" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- 3. The Form -->
+            <VerticalStackLayout Spacing="10">
+                
+                <Label Text="Target" TextColor="#AAAAAA" FontSize="12"/>
+                <Entry Text="{Binding Target}" Placeholder="Name of the goal" TextColor="White" BackgroundColor="#1E1E1E"/>
+
+                <Label Text="What" TextColor="#AAAAAA" FontSize="12"/>
+                <Editor Text="{Binding What}" Placeholder="Description..." TextColor="White" BackgroundColor="#1E1E1E" HeightRequest="80" AutoSize="TextChanges"/>
+
+                <Label Text="How much (Points)" TextColor="#AAAAAA" FontSize="12"/>
+                <Entry Text="{Binding HowMuch}" Keyboard="Numeric" TextColor="White" BackgroundColor="#1E1E1E"/>
+
+                <Label Text="How / Periodicity" TextColor="#AAAAAA" FontSize="12"/>
+                <Picker ItemsSource="{Binding PeriodicityOptions}" 
+                        SelectedItem="{Binding SelectedPeriodicity}" 
+                        TextColor="White" 
+                        Title="Select Frequency"
+                        BackgroundColor="#1E1E1E"/>
+
+                <VerticalStackLayout IsVisible="{Binding IsDateVisible}">
+                    <Label Text="Until" TextColor="#AAAAAA" FontSize="12"/>
+                    <DatePicker Date="{Binding UntilDate}" TextColor="White" BackgroundColor="#1E1E1E"/>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+
+            <!-- 4. Save & Delete Buttons -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="15" Margin="0,10">
+                <Button Text="Save" 
+                        Command="{Binding SaveCommand}" 
+                        BackgroundColor="#2196F3" 
+                        TextColor="White" 
+                        FontAttributes="Bold"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="{Binding IsEditMode, Converter={StaticResource BoolToSpanConverter}}"/>
+
+                <Button Text="Delete" 
+                        Command="{Binding DeleteCommand}" 
+                        BackgroundColor="#C62828" 
+                        TextColor="White"
+                        IsVisible="{Binding IsEditMode}"
+                        Grid.Column="1"/>
+            </Grid>
+
+            <!-- 5. Bottom-most Green Button -->
+            <Button Text="What I achieved..."
+                    IsVisible="{Binding IsEditMode}"
+                    Command="{Binding ViewAchievementsCommand}"
+                    BackgroundColor="#4CAF50"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="25"
+                    HeightRequest="60"
+                    Margin="0,10,0,20"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

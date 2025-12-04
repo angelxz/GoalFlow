@@ -1,0 +1,54 @@
+using System.Windows.Input;
+using GoalFlow.Models;
+using GoalFlow.Services; // Import Service
+using System.Linq; // For LINQ methods
+
+namespace GoalFlow.ViewModels
+{
+    public class MainViewModel : BaseViewModel
+    {
+        private int _totalPoints;
+        private int _goalsCompleted;
+
+        public int TotalPoints
+        {
+            get => _totalPoints;
+            set => SetProperty(ref _totalPoints, value);
+        }
+
+        public int GoalsCompleted
+        {
+            get => _goalsCompleted;
+            set => SetProperty(ref _goalsCompleted, value);
+        }
+
+        // ... Commands ...
+        public ICommand NavigateToAchievementsCommand { get; }
+        public ICommand NavigateToShopCommand { get; }
+        public ICommand NavigateToGoalsCommand { get; }
+        public ICommand RefreshStatsCommand { get; } // Helper for OnAppearing
+
+        public MainViewModel()
+        {
+            Title = "GoalFlow";
+            
+            // Initial Load
+            LoadStats();
+
+            // Commands
+            NavigateToAchievementsCommand = new Command(async () => await Shell.Current.GoToAsync("AchievementsPage"));
+            NavigateToShopCommand = new Command(async () => await Shell.Current.GoToAsync("ShopPage"));
+            NavigateToGoalsCommand = new Command(async () => await Shell.Current.GoToAsync("GoalsPage"));
+            
+            RefreshStatsCommand = new Command(LoadStats);
+        }
+
+        public void LoadStats()
+        {
+            // Calculate stats from GoalCompletionRecords
+            var completions = GoalService.GetAllCompletionsAsync().Result;
+            GoalsCompleted = completions.Count;
+            TotalPoints = completions.Sum(record => record.Points);
+        }
+    }
+}

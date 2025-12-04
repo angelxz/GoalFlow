@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GoalFlow.ViewModels"
+             x:Class="GoalFlow.Views.GoalAchievementsPage"
+             BackgroundColor="#121212"
+             Title="{Binding Title}">
+
+    <ContentPage.BindingContext>
+        <vm:GoalAchievementsViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto, *" Padding="20" RowSpacing="20">
+        
+        <!-- HEADER SECTION -->
+        <VerticalStackLayout Grid.Row="0" Spacing="15">
+            
+            <!-- Title + Category Logo -->
+            <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                <Label Text="What I achieved with..." 
+                       TextColor="#AAAAAA" 
+                       FontSize="20" 
+                       FontAttributes="Bold"
+                       VerticalOptions="Center"/>
+                
+                <!-- Category Icon -->
+                <Frame Grid.Column="1"
+                       BackgroundColor="#1E1E1E"
+                       BorderColor="{Binding CategoryColor}"
+                       CornerRadius="25"
+                       HeightRequest="50"
+                       WidthRequest="50"
+                       Padding="0"
+                       HasShadow="False">
+                    <Label Text="{Binding CategoryIcon}" 
+                           FontSize="24" 
+                           HorizontalOptions="Center" 
+                           VerticalOptions="Center"/>
+                </Frame>
+            </Grid>
+
+            <!-- Stats: Total Points & Count -->
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                <Frame BackgroundColor="#1E1E1E" BorderColor="#333" CornerRadius="10" Padding="15">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Total Points" TextColor="#777" FontSize="12" HorizontalOptions="Center"/>
+                        <Label Text="{Binding TotalPointsEarned}" TextColor="#FFD700" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <Frame Grid.Column="1" BackgroundColor="#1E1E1E" BorderColor="#333" CornerRadius="10" Padding="15">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Completions" TextColor="#777" FontSize="12" HorizontalOptions="Center"/>
+                        <Label Text="{Binding CompletionCount}" TextColor="#4FC3F7" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+
+            <!-- Goal Name -->
+            <Label Text="{Binding GoalName}" 
+                   TextColor="White" 
+                   FontSize="22" 
+                   HorizontalOptions="Center" 
+                   FontAttributes="Bold"
+                   Margin="0,10,0,0"/>
+            
+            <BoxView HeightRequest="1" Color="#333" Margin="0,5"/>
+        </VerticalStackLayout>
+
+
+        <!-- RECORDS LIST SECTION -->
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Records}">
+            <CollectionView.EmptyView>
+                <Label Text="No achievements yet. Complete this goal to see records here!" 
+                       TextColor="#555" 
+                       HorizontalOptions="Center" 
+                       Margin="0,50,0,0"/>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="0,10" ColumnDefinitions="*, Auto">
+                        <!-- Date & Time -->
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="{Binding DateCompleted, StringFormat='{0:MMM dd, yyyy}'}" 
+                                   TextColor="White" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold"/>
+                            <Label Text="{Binding DateCompleted, StringFormat='{0:HH:mm}'}" 
+                                   TextColor="#777" 
+                                   FontSize="12"/>
+                        </VerticalStackLayout>
+
+                        <!-- Points Awarded -->
+                        <HorizontalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="5">
+                            <Label Text="+" TextColor="#4CAF50" FontSize="18" FontAttributes="Bold"/>
+                            <Label Text="{Binding Points}" TextColor="#4CAF50" FontSize="18" FontAttributes="Bold"/>
+                            <Label Text="pts" TextColor="#4CAF50" FontSize="12" VerticalOptions="End" Margin="0,0,0,3"/>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>

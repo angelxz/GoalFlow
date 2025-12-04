@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GoalFlow.ViewModels"
+             x:Class="GoalFlow.Views.GoalsPage"
+             BackgroundColor="#121212"
+             Title="{Binding Title}">
+
+    <ContentPage.BindingContext>
+        <vm:GoalsViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto, Auto, *" Padding="15" RowSpacing="15">
+
+        <!-- Row 0: Add Button -->
+        <Button Grid.Row="0"
+                Text="+ Add New Goal"
+                Command="{Binding AddGoalCommand}"
+                BackgroundColor="#2196F3"
+                TextColor="White"
+                FontAttributes="Bold"
+                CornerRadius="8"
+                HeightRequest="50"/>
+
+        <!-- Row 1: Horizontal Categories Filter -->
+        <Grid Grid.Row="1" ColumnDefinitions="Auto, *" ColumnSpacing="10">
+            
+            <Button Grid.Column="0" 
+                    Text="All" 
+                    Command="{Binding ShowAllCommand}"
+                    BackgroundColor="#333" 
+                    TextColor="White" 
+                    WidthRequest="50" 
+                    HeightRequest="50"
+                    Padding="0"
+                    CornerRadius="10"/>
+
+            <CollectionView Grid.Column="1" 
+                            ItemsSource="{Binding Categories}" 
+                            HeightRequest="60">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="#1E1E1E" 
+                               BorderColor="{Binding Color}"
+                               CornerRadius="10"
+                               WidthRequest="60"
+                               HeightRequest="50"
+                               Padding="0"
+                               HasShadow="False">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:GoalsViewModel}}, Path=FilterCategoryCommand}"
+                                                      CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
+                            
+                            <!-- SELECTION VISUALS -->
+                            <Frame.Triggers>
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsSelected}" Value="True">
+                                    <Setter Property="BorderColor" Value="White" />
+                                    <Setter Property="BackgroundColor" Value="#333" /> <!-- Slightly lighter bg -->
+                                </DataTrigger>
+                            </Frame.Triggers>
+                            
+                            <Label Text="{Binding Icon}" 
+                                   FontSize="24" 
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+
+        <!-- Row 2: The Actual Goals List -->
+        <CollectionView Grid.Row="2" ItemsSource="{Binding DisplayedGoals}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.EmptyView>
+                <Label Text="No goals found." 
+                       TextColor="#777" 
+                       HorizontalOptions="Center" 
+                       VerticalOptions="Center"/>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="#1E1E1E" 
+                           BorderColor="#333" 
+                           CornerRadius="10" 
+                           Padding="15">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:GoalsViewModel}}, Path=EditGoalCommand}"
+                                                  CommandParameter="{Binding .}"/>
+                        </Frame.GestureRecognizers>
+
+                        <Grid ColumnDefinitions="5, *, Auto">
+                            <BoxView Grid.Column="0" Color="{Binding CategoryColor}" WidthRequest="5" VerticalOptions="Fill"/>
+                            
+                            <VerticalStackLayout Grid.Column="1" Margin="10,0,0,0" Spacing="2">
+                                <Label Text="{Binding Name}" TextColor="White" FontSize="16" FontAttributes="Bold"/>
+                                <Label Text="{Binding Category}" TextColor="#777" FontSize="12"/>
+                            </VerticalStackLayout>
+                            
+                            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center">
+                                <Label Text="{Binding Points}" TextColor="{Binding CategoryColor}" FontSize="18" FontAttributes="Bold" HorizontalOptions="End"/>
+                                <Label Text="points" TextColor="#555" FontSize="10" HorizontalOptions="End"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>
