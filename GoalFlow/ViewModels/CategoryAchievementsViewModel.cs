@@ -8,11 +8,11 @@ namespace GoalFlow.ViewModels
     // Helper class for the list items
     public class AchievedGoalItem
     {
-        public string Name { get; set; }
+        public required string Name { get; set; }
         public int TimesCompleted { get; set; }
         public DateTime LastDate { get; set; }
         public int TotalPoints { get; set; }
-        public string CategoryColor { get; set; }
+        public required string CategoryColor { get; set; }
     }
 
     [QueryProperty(nameof(CategoryName), "Name")]
@@ -20,9 +20,9 @@ namespace GoalFlow.ViewModels
     [QueryProperty(nameof(CategoryColor), "Color")]
     public class CategoryAchievementsViewModel : BaseViewModel
     {
-        private string _categoryName;
-        private string _categoryIcon;
-        private string _categoryColor;
+        public required string _categoryName;
+        public required string _categoryIcon;
+        public required string _categoryColor;
 
         public string CategoryName
         {

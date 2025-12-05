@@ -5,9 +5,9 @@ namespace GoalFlow.Models
 {
     public class GoalCategory : INotifyPropertyChanged
     {
-        public string Name { get; set; }
-        public string Icon { get; set; }
-        public string Color { get; set; } // Hex code
+        public required string Name { get; set; }
+        public required string Icon { get; set; }
+        public required string Color { get; set; } // Hex code
 
         // Field to track selection state for UI highlighting
         private bool _isSelected;
@@ -24,7 +24,7 @@ namespace GoalFlow.Models
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

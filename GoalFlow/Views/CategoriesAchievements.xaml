@@ -11,12 +11,12 @@
     </ContentPage.BindingContext>
 
     <Grid RowDefinitions="Auto, *"
-            Padding="20"
-            RowSpacing="20">
+          Padding="20"
+          RowSpacing="20">
 
         <!-- Header -->
         <VerticalStackLayout Grid.Row="0"
-                Spacing="5">
+                             Spacing="5">
             <Label Text="Your Progress"
                    FontSize="24"
                    FontAttributes="Bold"
@@ -30,28 +30,28 @@
 
         <!-- 2x2 Grid Display -->
         <CollectionView Grid.Row="1"
-                ItemsSource="{Binding Stats}">
+                        ItemsSource="{Binding Stats}">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical"
-                        Span="2"
-                        HorizontalItemSpacing="15"
-                        VerticalItemSpacing="15"/>
+                                 Span="2"
+                                 HorizontalItemSpacing="15"
+                                 VerticalItemSpacing="15"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame BackgroundColor="#1E1E1E"
-                           BorderColor="{Binding Color}"
-                           CornerRadius="15"
-                           HeightRequest="180"
-                           Padding="10"
-                           HasShadow="True">
-                        <Frame.GestureRecognizers>
+                    <Border BackgroundColor="#1E1E1E"
+                            Stroke="{Binding Color}"
+                            StrokeShape="RoundRectangle 15"
+                            HeightRequest="180"
+                            Padding="10"
+                            Shadow="{StaticResource DefaultShadow}">
+                        <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoriesAchievementsViewModel}}, Path=OpenCategoryCommand}"
                                                   CommandParameter="{Binding .}"/>
-                        </Frame.GestureRecognizers>
+                        </Border.GestureRecognizers>
 
                         <VerticalStackLayout VerticalOptions="Center"
-                                Spacing="10">
+                                             Spacing="10">
 
                             <!-- Icon -->
                             <Label Text="{Binding Icon}"
@@ -66,8 +66,8 @@
                                    HorizontalOptions="Center"/>
 
                             <BoxView Color="#333"
-                                    HeightRequest="1"
-                                    WidthRequest="100"/>
+                                     HeightRequest="1"
+                                     WidthRequest="100"/>
 
                             <!-- Points -->
                             <Label Text="{Binding TotalPoints, StringFormat='⭐ {0} pts'}"
@@ -83,7 +83,7 @@
                                    HorizontalOptions="Center"/>
 
                         </VerticalStackLayout>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

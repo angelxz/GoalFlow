@@ -35,50 +35,50 @@
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Frame BackgroundColor="#1E1E1E" 
-                                       BorderColor="{Binding Color}"
-                                       CornerRadius="10"
+                                <Border BackgroundColor="#1E1E1E" 
+                                       Stroke="{Binding Color}"
+                                       StrokeShape="RoundRectangle 10"
                                        WidthRequest="60"
                                        HeightRequest="50"
                                        Padding="0"
-                                       HasShadow="False">
-                                    <Frame.GestureRecognizers>
+                                       Shadow="{StaticResource DefaultShadow}">
+                                    <Border.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:GoalDetailsViewModel}}, Path=SelectCategoryCommand}"
                                                               CommandParameter="{Binding .}"/>
-                                    </Frame.GestureRecognizers>
+                                    </Border.GestureRecognizers>
                                     
                                     <!-- SELECTION VISUALS -->
-                                    <Frame.Triggers>
-                                        <DataTrigger TargetType="Frame" Binding="{Binding IsSelected}" Value="True">
-                                            <Setter Property="BorderColor" Value="White" />
+                                    <Border.Triggers>
+                                        <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="Stroke" Value="White" />
                                             <Setter Property="BackgroundColor" Value="#333" />
                                         </DataTrigger>
-                                    </Frame.Triggers>
+                                    </Border.Triggers>
 
                                     <Label Text="{Binding Icon}" 
                                            FontSize="24" 
                                            HorizontalOptions="Center" 
                                            VerticalOptions="Center"/>
-                                </Frame>
+                                </Border>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
 
                     <!-- B: EDIT MODE (Show Single Item, Locked) -->
-                    <Frame IsVisible="{Binding IsEditMode}"
+                    <Border IsVisible="{Binding IsEditMode}"
                            BackgroundColor="#1E1E1E"
-                           BorderColor="{Binding SelectedCategoryColor}"
-                           CornerRadius="10"
+                           Stroke="{Binding SelectedCategoryColor}"
+                           StrokeShape="RoundRectangle 10"
                            WidthRequest="60"
                            HeightRequest="50"
                            HorizontalOptions="Start"
                            Padding="0"
-                           HasShadow="False">
+                           Shadow="{StaticResource DefaultShadow}">
                         <Label Text="{Binding SelectedCategoryIcon}" 
                                FontSize="24" 
                                HorizontalOptions="Center" 
                                VerticalOptions="Center"/>
-                    </Frame>
+                    </Border>
                     
                 </Grid>
 
@@ -100,16 +100,16 @@
                    TextColor="#999" FontSize="14" FontAttributes="Italic" Margin="5,-10,0,0"/>
 
             <!-- 2. API Data Visualization Placeholder -->
-            <Frame BackgroundColor="#1E1E1E" 
-                   BorderColor="#333" 
-                   CornerRadius="10" 
+            <Border BackgroundColor="#1E1E1E" 
+                   Stroke="#333" 
+                   StrokeShape="RoundRectangle 10" 
                    HeightRequest="120"
-                   HasShadow="False">
+                   Shadow="{StaticResource DefaultShadow}">
                 <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="5">
                     <Label Text="📊" FontSize="30" HorizontalOptions="Center"/>
                     <Label Text="API Data Visualization" TextColor="#777" HorizontalOptions="Center"/>
                 </VerticalStackLayout>
-            </Frame>
+            </Border>
 
             <!-- 3. The Form -->
             <VerticalStackLayout Spacing="10">

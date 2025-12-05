@@ -39,11 +39,11 @@
             </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame BackgroundColor="#1E1E1E" 
-                           BorderColor="#333" 
-                           CornerRadius="10" 
+                    <Border BackgroundColor="#1E1E1E" 
+                           Stroke="#333" 
+                           StrokeShape="RoundRectangle 10"
                            Padding="15"
-                           HasShadow="True">
+                           Shadow="{StaticResource DefaultShadow}">
                         <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto">
                             
                             <!-- Goal Name -->
@@ -74,7 +74,7 @@
                                        FontSize="12"/>
                             </HorizontalStackLayout>
                         </Grid>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

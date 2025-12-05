@@ -8,9 +8,9 @@ namespace GoalFlow.ViewModels
     [QueryProperty(nameof(GoalToEdit), "Goal")]
     public class GoalDetailsViewModel : BaseViewModel
     {
-        private Goal _goalToEdit;
-        private string _target;
-        private string _what;
+        public required Goal _goalToEdit;
+        public required string _target;
+        public required string _what;
         private int _howMuch;
         private string _selectedPeriodicity = "Date";
         private DateTime _untilDate = DateTime.Today;
@@ -34,7 +34,7 @@ namespace GoalFlow.ViewModels
         {
             if (!IsEditMode || _goalToEdit == null)
             {
-                await Shell.Current.DisplayAlert("Info", "Save the goal first before completing it.", "OK");
+                await Shell.Current.DisplayAlertAsync("Info", "Save the goal first before completing it.", "OK");
                 return;
             }
 
@@ -51,7 +51,7 @@ namespace GoalFlow.ViewModels
             await GoalService.AddCompletionRecordAsync(record);
 
             // 3. Feedback
-            await Shell.Current.DisplayAlert("Congratulations!", $"You have received {record.Points} points!", "OK");
+            await Shell.Current.DisplayAlertAsync("Congratulations!", $"You have received {record.Points} points!", "OK");
         }
 
         private async void ViewAchievements()
@@ -182,17 +182,27 @@ namespace GoalFlow.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Target))
             {
-                await Shell.Current.DisplayAlert("Error", "Target Name is required.", "OK");
+                await Shell.Current.DisplayAlertAsync("Error", "Target Name is required.", "OK");
                 return;
             }
 
-            var goalToSave = _goalToEdit ?? new Goal();
-            goalToSave.Name = Target;
-            goalToSave.Description = What;
-            goalToSave.Points = HowMuch;
-            goalToSave.Category = SelectedCategoryName;
-            goalToSave.Periodicity = SelectedPeriodicity;
-            goalToSave.TargetDate = TargetDate;
+            var goalToSave = _goalToEdit
+                ?? new Goal
+                {
+                    Name = Target,
+                    Description = What,
+                    Points = HowMuch,
+                    Periodicity = SelectedPeriodicity,
+                    TargetDate = TargetDate,
+                    Category = SelectedCategoryName
+
+                };
+            //goalToSave.Name = Target;
+            //goalToSave.Description = What;
+            //goalToSave.Points = HowMuch;
+            //goalToSave.Category = SelectedCategoryName;
+            //goalToSave.Periodicity = SelectedPeriodicity;
+            //goalToSave.TargetDate = TargetDate;
 
             await GoalService.SaveGoalAsync(goalToSave);
             await Shell.Current.GoToAsync("..");
@@ -201,7 +211,7 @@ namespace GoalFlow.ViewModels
         private async Task Delete()
         {
             if (_goalToEdit == null) return;
-            bool answer = await Shell.Current.DisplayAlert("Delete", "Are you sure?", "Yes", "No");
+            bool answer = await Shell.Current.DisplayAlertAsync("Delete", "Are you sure?", "Yes", "No");
             if (answer)
             {
                 await GoalService.DeleteGoalAsync(_goalToEdit.Id);

@@ -5,6 +5,11 @@
              x:Class="GoalFlow.App">
     <Application.Resources>
         <ResourceDictionary>
+            <Shadow x:Key="DefaultShadow"
+                Brush="Black"
+                Radius="10"
+                Opacity="0.5"
+                Offset="5,5" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />

@@ -8,13 +8,13 @@ namespace GoalFlow.ViewModels
     [QueryProperty(nameof(GoalId), "GoalId")]
     public class GoalAchievementsViewModel : BaseViewModel
     {
-        private string _goalId;
-        private Goal _linkedGoal;
+        public required string _goalId;
+        private Goal? _linkedGoal;
         private int _totalPointsEarned;
         private int _completionCount;
         private string _categoryIcon = "❓";
-        private string _goalName;
-        private string _categoryColor;
+        public required string _goalName;
+        public required string _categoryColor;
 
         public string GoalId
         {
@@ -47,7 +47,7 @@ namespace GoalFlow.ViewModels
         {
             // 1. Get Goal Details to set Header info
             var goals = await GoalService.GetGoalsAsync();
-            _linkedGoal = goals.FirstOrDefault(g => g.Id == GoalId);
+            _linkedGoal = goals?.FirstOrDefault(g => g.Id == GoalId);
 
             if (_linkedGoal != null)
             {

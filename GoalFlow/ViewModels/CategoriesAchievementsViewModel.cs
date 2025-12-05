@@ -8,9 +8,9 @@ namespace GoalFlow.ViewModels
 {
     public class CategoryStat
     {
-        public string Name { get; set; }
-        public string Icon { get; set; }
-        public string Color { get; set; }
+        public required string Name { get; set; }
+        public required string Icon { get; set; }
+        public required string Color { get; set; }
         public int TotalPoints { get; set; }
         public int CompletedGoals { get; set; }
         public int TotalGoals { get; set; }

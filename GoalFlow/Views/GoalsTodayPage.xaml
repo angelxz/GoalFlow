@@ -41,16 +41,16 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame BackgroundColor="#1E1E1E" 
-                           BorderColor="#333" 
-                           CornerRadius="15" 
+                    <Border BackgroundColor="#1E1E1E" 
+                           Stroke="#333" 
+                           StrokeShape="RoundRectangle 15" 
                            Padding="0"
-                           HasShadow="True">
+                           Shadow="{StaticResource DefaultShadow}">
                         
-                        <Frame.GestureRecognizers>
+                        <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:GoalsTodayViewModel}}, Path=OpenGoalCommand}"
                                                   CommandParameter="{Binding .}"/>
-                        </Frame.GestureRecognizers>
+                        </Border.GestureRecognizers>
 
                         <Grid ColumnDefinitions="60, *">
                             
@@ -90,7 +90,7 @@
                                 </HorizontalStackLayout>
                             </Grid>
                         </Grid>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
