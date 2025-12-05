@@ -6,6 +6,28 @@ namespace GoalFlow.Services
     {
         private static readonly HttpClient _client = new HttpClient();
 
+        public static async Task<string> GetDailyQuoteAsync()
+        {
+            try
+            {
+                var response = await _client.GetFromJsonAsync<QuoteResponse>("https://dummyjson.com/quotes/random");
+                string quote = response?.quote ?? "Believe you can and you're halfway there.";
+                string author = response?.author ?? "Theodore Roosevelt";
+
+                // Ensure it's not too long for the home screen
+                if (quote.Length > 85)
+                {
+                    return "\"Action is the foundational key to all success.\"\n— Pablo Picasso";
+                }
+
+                return $"\"{quote}\"\n— {author}";
+            }
+            catch
+            {
+                return "\"Every day is a fresh start.\"";
+            }
+        }
+
         public static async Task<(string Title, string Content)> GetDataForCategory(string category)
         {
             try

@@ -9,6 +9,7 @@ namespace GoalFlow.ViewModels
     {
         private int _totalPoints;
         private int _goalsCompleted;
+        private string _dailyQuote = "Loading inspiration...";
 
         public int TotalPoints
         {
@@ -31,7 +32,7 @@ namespace GoalFlow.ViewModels
         public MainViewModel()
         {
             Title = "GoalFlow";
-            
+
             // Initial Load
             LoadStats();
 
@@ -39,8 +40,14 @@ namespace GoalFlow.ViewModels
             NavigateToAchievementsCommand = new Command(async () => await Shell.Current.GoToAsync("CategoriesAchievementsPage"));
             NavigateToGoalsTodayCommand = new Command(async () => await Shell.Current.GoToAsync("GoalsTodayPage"));
             NavigateToGoalsCommand = new Command(async () => await Shell.Current.GoToAsync("GoalsPage"));
-            
+
             RefreshStatsCommand = new Command(LoadStats);
+
+            // Fetch Quote
+            Task.Run(async () =>
+            {
+                DailyQuote = await ApiService.GetDailyQuoteAsync();
+            });
         }
 
         public void LoadStats()
@@ -49,6 +56,12 @@ namespace GoalFlow.ViewModels
             var completions = GoalService.GetAllCompletionsAsync().Result;
             GoalsCompleted = completions.Count;
             TotalPoints = completions.Sum(record => record.Points);
+        }
+
+        public string DailyQuote
+        {
+            get => _dailyQuote;
+            set => SetProperty(ref _dailyQuote, value);
         }
     }
 }

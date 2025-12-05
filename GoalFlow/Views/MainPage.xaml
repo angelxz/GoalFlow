@@ -10,21 +10,28 @@
         <vm:MainViewModel />
     </ContentPage.BindingContext>
 
-    <Grid RowDefinitions="Auto, Auto, *, Auto" Padding="20">
+    <Grid RowDefinitions="Auto, Auto, Auto, *, Auto" Padding="20">
         
         <!-- Header / Logo Area -->
         <VerticalStackLayout Grid.Row="0" Spacing="10" HorizontalOptions="Center" Margin="0,40,0,20">
-            <!-- 
-                 Increased HeightRequest to 180 for a bigger logo 
-            -->
             <Image Source="goalflow.png" 
                    HeightRequest="180" 
                    HorizontalOptions="Center" 
                    Aspect="AspectFit"/>
         </VerticalStackLayout>
 
+        <!-- Inspirational Quote -->
+        <Label Grid.Row="1" 
+               Text="{Binding DailyQuote}" 
+               TextColor="#AAAAAA" 
+               FontSize="14" 
+               FontAttributes="Italic"
+               HorizontalOptions="Center" 
+               HorizontalTextAlignment="Center"
+               Margin="0,0,0,10"/>
+
         <!-- Stats Section (Points & Goals Completed) -->
-        <Grid Grid.Row="1" ColumnDefinitions="*, *" Margin="0,20" ColumnSpacing="15">
+        <Grid Grid.Row="2" ColumnDefinitions="*, *" Margin="0,20" ColumnSpacing="15">
             <Border BackgroundColor="#1E1E1E" StrokeShape="RoundRectangle 10" Stroke="#333" Padding="15">
                 <VerticalStackLayout>
                     <Label Text="Points" TextColor="#AAAAAA" FontSize="12" HorizontalOptions="Center"/>
@@ -41,7 +48,7 @@
         </Grid>
 
         <!-- Main Action Buttons -->
-        <VerticalStackLayout Grid.Row="2" Spacing="20" VerticalOptions="Center">
+        <VerticalStackLayout Grid.Row="3" Spacing="20" VerticalOptions="Center">
             
             <!-- Green Button -->
             <Button Text="What I achieved..." 
@@ -77,7 +84,7 @@
                     Shadow="{Shadow Brush=Blue, Radius=5, Offset='2,2'}"/>
         </VerticalStackLayout>
         
-        <Label Grid.Row="3" 
+        <Label Grid.Row="4" 
                Text="Build v1.0" 
                TextColor="#333" 
                HorizontalOptions="Center" 
