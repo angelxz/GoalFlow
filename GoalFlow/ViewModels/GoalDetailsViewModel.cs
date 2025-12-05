@@ -18,7 +18,7 @@ namespace GoalFlow.ViewModels
         
         // Helper properties for binding the single icon in Edit Mode
         private string _selectedCategoryIcon = "💡"; 
-        private string _selectedCategoryColor = "#EF6C00";
+        private Color _selectedCategoryColor = Colors.Gray;
 
         private bool _isDateVisible = true;
         private bool _isEditMode;
@@ -73,7 +73,7 @@ namespace GoalFlow.ViewModels
             set => SetProperty(ref _selectedCategoryIcon, value);
         }
 
-        public string SelectedCategoryColor
+        public Color SelectedCategoryColor
         {
             get => _selectedCategoryColor;
             set => SetProperty(ref _selectedCategoryColor, value);
@@ -157,7 +157,7 @@ namespace GoalFlow.ViewModels
                 if (c.IsSelected)
                 {
                     SelectedCategoryIcon = c.Icon;
-                    SelectedCategoryColor = c.Color;
+                    SelectedCategoryColor = c.ColorBrush;
                 }
             }
 
@@ -214,7 +214,7 @@ namespace GoalFlow.ViewModels
 
                 };
             //goalToSave.Name = Target;
-            //goalToSave.Description = What;
+            goalToSave.Description = What;
             //goalToSave.Points = HowMuch;
             //goalToSave.Category = SelectedCategoryName;
             //goalToSave.Periodicity = SelectedPeriodicity;

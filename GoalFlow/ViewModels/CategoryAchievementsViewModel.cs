@@ -12,7 +12,7 @@ namespace GoalFlow.ViewModels
         public int TimesCompleted { get; set; }
         public DateTime LastDate { get; set; }
         public int TotalPoints { get; set; }
-        public required string CategoryColor { get; set; }
+        public required Color CategoryColor { get; set; }
     }
 
     [QueryProperty(nameof(CategoryName), "Name")]
@@ -22,7 +22,7 @@ namespace GoalFlow.ViewModels
     {
         public required string _categoryName;
         public required string _categoryIcon;
-        public required string _categoryColor;
+        public required Color _categoryColor;
 
         public string CategoryName
         {
@@ -37,7 +37,7 @@ namespace GoalFlow.ViewModels
         }
 
         public string CategoryIcon { get => _categoryIcon; set => SetProperty(ref _categoryIcon, value); }
-        public string CategoryColor { get => _categoryColor; set => SetProperty(ref _categoryColor, value); }
+        public Color CategoryColor { get => _categoryColor; set => SetProperty(ref _categoryColor, value); }
 
         public ObservableCollection<AchievedGoalItem> AchievedGoals { get; set; }
         public ICommand BackCommand { get; }

@@ -44,7 +44,7 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border BackgroundColor="#1E1E1E" 
-                               Stroke="{Binding Color}"
+                               Stroke="{Binding ColorBrush}"
                                StrokeShape="RoundRectangle 10"
                                WidthRequest="60"
                                HeightRequest="50"

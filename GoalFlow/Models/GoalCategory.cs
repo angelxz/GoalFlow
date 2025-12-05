@@ -9,6 +9,15 @@ namespace GoalFlow.Models
         public required string Icon { get; set; }
         public required string Color { get; set; } // Hex code
 
+        public Microsoft.Maui.Graphics.Color ColorBrush 
+        {
+            get 
+            {
+                if (string.IsNullOrEmpty(Color)) return Microsoft.Maui.Graphics.Colors.Gray;
+                return Microsoft.Maui.Graphics.Color.FromArgb(Color);
+            }
+        }
+
         // Field to track selection state for UI highlighting
         private bool _isSelected;
         public bool IsSelected

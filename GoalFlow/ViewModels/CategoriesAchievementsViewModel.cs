@@ -10,7 +10,7 @@ namespace GoalFlow.ViewModels
     {
         public required string Name { get; set; }
         public required string Icon { get; set; }
-        public required string Color { get; set; }
+        public required Color Color { get; set; }
         public int TotalPoints { get; set; }
         public int CompletedGoals { get; set; }
         public int TotalGoals { get; set; }
@@ -92,7 +92,7 @@ namespace GoalFlow.ViewModels
                 {
                     Name = cat.Name,
                     Icon = cat.Icon,
-                    Color = cat.Color,
+                    Color = cat.ColorBrush,
                     TotalPoints = points,
                     CompletedGoals = completed,
                     TotalGoals = total
@@ -109,11 +109,6 @@ namespace GoalFlow.ViewModels
 
         private bool IsGoalCompletedForPeriod(Goal g)
         {
-            // One-time date goals
-            if (g.Periodicity == "Date")
-                return g.IsCompleted;
-
-            // Recurring goals - check LastCompletedDate
             if (g.LastCompletedDate == null) return false;
 
             DateTime last = g.LastCompletedDate.Value;

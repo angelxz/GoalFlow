@@ -45,7 +45,7 @@ namespace GoalFlow.ViewModels
                 if (goal.Periodicity == "Date")
                 {
                     // Show if date is today or passed, AND not yet marked complete
-                    if (!goal.IsCompleted && goal.TargetDate.Date <= now.Date)
+                    if (goal.LastCompletedDate == null && goal.TargetDate.Date <= now.Date)
                     {
                         shouldShow = true;
                     }
