@@ -10,6 +10,8 @@ namespace GoalFlow.Models
         public DateTime TargetDate { get; set; } // "Until"
         public string Category { get; set; }
         public bool IsCompleted { get; set; }
+
+        public DateTime? LastCompletedDate { get; set; } 
         
         // Helper for UI Color
         public string CategoryColor => Category switch

@@ -54,9 +54,9 @@
                     HeightRequest="60"
                     Shadow="{Shadow Brush=Green, Radius=5, Offset='2,2'}"/>
 
-            <!-- Orange Button (Renamed) -->
-            <Button Text="Today is a good day for..." 
-                    Command="{Binding NavigateToShopCommand}"
+            <!-- Orange Button -->
+            <Button Text="Today is a good day to..." 
+                    Command="{Binding NavigateToGoalsTodayCommand}"
                     BackgroundColor="#FF9800"
                     TextColor="White"
                     FontSize="18"

@@ -42,7 +42,7 @@ namespace GoalFlow.ViewModels
             var record = new GoalCompletionRecord
             {
                 GoalId = _goalToEdit.Id,
-                GoalName = _goalToEdit.Name,
+                //GoalName = _goalToEdit.Name,
                 Points = _goalToEdit.Points,
                 DateCompleted = DateTime.Now
             };

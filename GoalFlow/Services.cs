@@ -49,11 +49,20 @@ namespace GoalFlow.Services
         {
             var records = await GetAllCompletionsAsync();
             records.Add(record);
-            
+
             // Sort by date descending (newest first)
             records = records.OrderByDescending(r => r.DateCompleted).ToList();
-            
+
             Preferences.Set(CompletionsKey, JsonSerializer.Serialize(records));
+
+            // Also update the goal's last completed date
+            var goals = await GetGoalsAsync();
+            var goal = goals.FirstOrDefault(g => g.Id == record.GoalId);
+            if (goal != null)
+            {
+                goal.LastCompletedDate = record.DateCompleted;
+                await SaveGoalAsync(goal);
+            }
         }
 
         public static async Task<List<GoalCompletionRecord>> GetAllCompletionsAsync()

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GoalFlow.ViewModels"
+             x:Class="GoalFlow.Views.GoalsTodayPage"
+             BackgroundColor="#121212"
+             Title="{Binding Title}">
+
+    <ContentPage.BindingContext>
+        <vm:GoalsTodayViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto, *" Padding="20" RowSpacing="20">
+
+        <!-- Header -->
+        <VerticalStackLayout Grid.Row="0" Spacing="5">
+            <Label Text="Today is a good day to..." 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   TextColor="White"
+                   HorizontalOptions="Start"/>
+            <Label Text="Goals waiting for you" 
+                   FontSize="14" 
+                   TextColor="#777"/>
+        </VerticalStackLayout>
+
+        <!-- Goals List -->
+        <CollectionView Grid.Row="1" ItemsSource="{Binding TodayGoals}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="15"/>
+            </CollectionView.ItemsLayout>
+            
+            <!-- Empty State -->
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+                    <Label Text="🎉" FontSize="50" HorizontalOptions="Center"/>
+                    <Label Text="All caught up!" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Text="You have no pending goals for today." TextColor="#777" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="#1E1E1E" 
+                           BorderColor="#333" 
+                           CornerRadius="15" 
+                           Padding="0"
+                           HasShadow="True">
+                        
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:GoalsTodayViewModel}}, Path=OpenGoalCommand}"
+                                                  CommandParameter="{Binding .}"/>
+                        </Frame.GestureRecognizers>
+
+                        <Grid ColumnDefinitions="60, *">
+                            
+                            <!-- Left: Category Visual -->
+                            <Grid Grid.Column="0" BackgroundColor="{Binding CategoryColor}">
+                                <Label Text="{Binding CategoryIcon}" 
+                                       FontSize="28" 
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center"/>
+                            </Grid>
+
+                            <!-- Right: Goal Info -->
+                            <Grid Grid.Column="1" RowDefinitions="*,*" Padding="15,10">
+                                <VerticalStackLayout Grid.Row="0" Spacing="2">
+                                    <Label Text="{Binding Name}" 
+                                           TextColor="White" 
+                                           FontSize="16" 
+                                           FontAttributes="Bold"
+                                           LineBreakMode="TailTruncation"/>
+                                    
+                                    <!-- Category Name with tiny emoji if needed, though big one is on left -->
+                                    <Label Text="{Binding Category}" 
+                                           TextColor="#999" 
+                                           FontSize="12"/>
+                                </VerticalStackLayout>
+                                
+                                <HorizontalStackLayout Grid.Row="1" VerticalOptions="End" Spacing="10">
+                                    <Label Text="{Binding Points, StringFormat='⭐ {0} pts'}" 
+                                           TextColor="#FFD700" 
+                                           FontSize="12" 
+                                           FontAttributes="Bold"/>
+                                           
+                                    <Label Text="{Binding Periodicity}" 
+                                           TextColor="#AAA" 
+                                           FontSize="12" 
+                                           FontAttributes="Italic"/>
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GoalFlow.ViewModels"
+             x:Class="GoalFlow.Views.CategoryAchievementsPage"
+             BackgroundColor="#121212"
+             Title="Achievements">
+
+    <ContentPage.BindingContext>
+        <vm:CategoryAchievementsViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto, *" Padding="20" RowSpacing="20">
+
+        <!-- Header -->
+        <VerticalStackLayout Grid.Row="0" Spacing="10">
+            <Label Text="What did I achieve with..." 
+                   TextColor="White" 
+                   FontSize="16"
+                   HorizontalOptions="Center"/>
+            
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                <Label Text="{Binding CategoryIcon}" FontSize="28" VerticalOptions="Center"/>
+                <Label Text="{Binding CategoryName}" 
+                       TextColor="{Binding CategoryColor}" 
+                       FontSize="28" 
+                       FontAttributes="Bold"
+                       VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+        <!-- List -->
+        <CollectionView Grid.Row="1" ItemsSource="{Binding AchievedGoals}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.EmptyView>
+                <Label Text="No achievements recorded yet." TextColor="#555" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="#1E1E1E" 
+                           BorderColor="#333" 
+                           CornerRadius="10" 
+                           Padding="15"
+                           HasShadow="True">
+                        <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto">
+                            
+                            <!-- Goal Name -->
+                            <Label Grid.Row="0" Grid.Column="0" 
+                                   Text="{Binding Name}" 
+                                   TextColor="White" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold"/>
+
+                            <!-- Total Points (Right aligned) -->
+                            <Label Grid.Row="0" Grid.Column="1" 
+                                   Text="{Binding TotalPoints, StringFormat='+{0} pts'}" 
+                                   TextColor="{Binding CategoryColor}" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="End"/>
+
+                            <!-- Stats Row -->
+                            <HorizontalStackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Spacing="15" Margin="0,5,0,0">
+                                <Label Text="{Binding TimesCompleted, StringFormat='Completed: {0} times'}" 
+                                       TextColor="#AAA" 
+                                       FontSize="12"/>
+                                
+                                <Label Text="|" TextColor="#333" FontSize="12"/>
+
+                                <Label Text="{Binding LastDate, StringFormat='Last: {0:MMM dd, yyyy}'}" 
+                                       TextColor="#AAA" 
+                                       FontSize="12"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

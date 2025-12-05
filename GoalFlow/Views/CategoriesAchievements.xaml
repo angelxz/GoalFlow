@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GoalFlow.ViewModels"
+             x:Class="GoalFlow.Views.CategoriesAchievementsPage"
+             BackgroundColor="#121212"
+             Title="{Binding Title}">
+
+    <ContentPage.BindingContext>
+        <vm:CategoriesAchievementsViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto, *"
+            Padding="20"
+            RowSpacing="20">
+
+        <!-- Header -->
+        <VerticalStackLayout Grid.Row="0"
+                Spacing="5">
+            <Label Text="Your Progress"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center"/>
+            <Label Text="Points &amp; Completions by Category"
+                   FontSize="14"
+                   TextColor="#777"
+                   HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+
+        <!-- 2x2 Grid Display -->
+        <CollectionView Grid.Row="1"
+                ItemsSource="{Binding Stats}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical"
+                        Span="2"
+                        HorizontalItemSpacing="15"
+                        VerticalItemSpacing="15"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="#1E1E1E"
+                           BorderColor="{Binding Color}"
+                           CornerRadius="15"
+                           HeightRequest="180"
+                           Padding="10"
+                           HasShadow="True">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoriesAchievementsViewModel}}, Path=OpenCategoryCommand}"
+                                                  CommandParameter="{Binding .}"/>
+                        </Frame.GestureRecognizers>
+
+                        <VerticalStackLayout VerticalOptions="Center"
+                                Spacing="10">
+
+                            <!-- Icon -->
+                            <Label Text="{Binding Icon}"
+                                   FontSize="40"
+                                   HorizontalOptions="Center"/>
+
+                            <!-- Category Name -->
+                            <Label Text="{Binding Name}"
+                                   TextColor="{Binding Color}"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"/>
+
+                            <BoxView Color="#333"
+                                    HeightRequest="1"
+                                    WidthRequest="100"/>
+
+                            <!-- Points -->
+                            <Label Text="{Binding TotalPoints, StringFormat='⭐ {0} pts'}"
+                                   TextColor="#FFD700"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"/>
+
+                            <!-- Completion Ratio -->
+                            <Label Text="{Binding ProgressText}"
+                                   TextColor="#AAA"
+                                   FontSize="12"
+                                   HorizontalOptions="Center"/>
+
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

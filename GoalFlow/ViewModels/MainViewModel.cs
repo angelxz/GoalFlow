@@ -24,7 +24,7 @@ namespace GoalFlow.ViewModels
 
         // ... Commands ...
         public ICommand NavigateToAchievementsCommand { get; }
-        public ICommand NavigateToShopCommand { get; }
+        public ICommand NavigateToGoalsTodayCommand { get; }
         public ICommand NavigateToGoalsCommand { get; }
         public ICommand RefreshStatsCommand { get; } // Helper for OnAppearing
 
@@ -36,8 +36,8 @@ namespace GoalFlow.ViewModels
             LoadStats();
 
             // Commands
-            NavigateToAchievementsCommand = new Command(async () => await Shell.Current.GoToAsync("AchievementsPage"));
-            NavigateToShopCommand = new Command(async () => await Shell.Current.GoToAsync("ShopPage"));
+            NavigateToAchievementsCommand = new Command(async () => await Shell.Current.GoToAsync("CategoriesAchievementsPage"));
+            NavigateToGoalsTodayCommand = new Command(async () => await Shell.Current.GoToAsync("GoalsTodayPage"));
             NavigateToGoalsCommand = new Command(async () => await Shell.Current.GoToAsync("GoalsPage"));
             
             RefreshStatsCommand = new Command(LoadStats);
