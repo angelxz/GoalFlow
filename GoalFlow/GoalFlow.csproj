@@ -43,8 +43,8 @@
 
 	<ItemGroup>
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" 
-				ForegroundFile="Resources\AppIcon\appicon.svg" 
-				Color="#121212" />
+				Color="#121212"
+				ForegroundScale="0.8" />
 
 		<!-- Splash Screen Configuration -->
 		<!-- Color: The background color of the entire splash screen -->
