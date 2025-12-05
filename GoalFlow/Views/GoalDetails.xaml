@@ -101,13 +101,28 @@
 
             <!-- 2. API Data Visualization Placeholder -->
             <Border BackgroundColor="#1E1E1E" 
-                   Stroke="#333" 
+                   Stroke="{Binding SelectedCategoryColor}" 
                    StrokeShape="RoundRectangle 10" 
-                   HeightRequest="120"
-                   Shadow="{StaticResource DefaultShadow}">
-                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="5">
-                    <Label Text="📊" FontSize="30" HorizontalOptions="Center"/>
-                    <Label Text="API Data Visualization" TextColor="#777" HorizontalOptions="Center"/>
+                   MinimumHeightRequest="120"
+                   Padding="15">
+                <VerticalStackLayout Spacing="8">
+                        <!-- Title with dynamic icon -->
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <Label Text="{Binding SelectedCategoryIcon}" FontSize="24"/>
+                            <Label Text="{Binding ApiTitle}" 
+                                TextColor="{Binding SelectedCategoryColor}" 
+                                FontSize="16" 
+                                FontAttributes="Bold"
+                                VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                        
+                        <BoxView HeightRequest="1" Color="#333" Margin="0,5"/>
+                        
+                        <!-- Content -->
+                        <Label Text="{Binding ApiContent}" 
+                            TextColor="White" 
+                            FontSize="14" 
+                            LineBreakMode="WordWrap"/>
                 </VerticalStackLayout>
             </Border>
 

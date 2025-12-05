@@ -23,6 +23,13 @@ namespace GoalFlow.ViewModels
         private bool _isDateVisible = true;
         private bool _isEditMode;
 
+        private string _apiTitle = "Loading...";
+        private string _apiContent = "Fetching data...";
+        
+        public string ApiTitle { get => _apiTitle; set => SetProperty(ref _apiTitle, value); }
+        public string ApiContent { get => _apiContent; set => SetProperty(ref _apiContent, value); }
+
+
         // Form Properties
         public string Target { get => _target; set => SetProperty(ref _target, value); }
         public string What { get => _what; set => SetProperty(ref _what, value); }
@@ -139,12 +146,12 @@ namespace GoalFlow.ViewModels
             IsEditMode = false;
         }
 
-        private void UpdateSelectionState(string categoryName)
+        private async void UpdateSelectionState(string categoryName)
         {
             SelectedCategoryName = categoryName;
-            
+
             // Update the IsSelected flag for UI visuals
-            foreach(var c in CategoryOptions) 
+            foreach (var c in CategoryOptions)
             {
                 c.IsSelected = (c.Name == categoryName);
                 if (c.IsSelected)
@@ -153,6 +160,15 @@ namespace GoalFlow.ViewModels
                     SelectedCategoryColor = c.Color;
                 }
             }
+
+            // NEW: Call the API Service
+            // We run this in a background task to avoid blocking UI updates
+            ApiTitle = "Loading...";
+            ApiContent = "Fetching info...";
+            
+            var result = await ApiService.GetDataForCategory(categoryName);
+            ApiTitle = result.Title;
+            ApiContent = result.Content;
         }
 
         public Goal GoalToEdit
